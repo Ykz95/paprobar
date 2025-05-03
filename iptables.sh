@@ -31,6 +31,10 @@ iptables -A INPUT -p tcp --dport 53 -j ACCEPT
 iptables -A OUTPUT -p udp --sport 53 -j ACCEPT
 iptables -A OUTPUT -p tcp --sport 53 -j ACCEPT
 
+# Permitir tráfico en el puerto 4444 (por ejemplo para netcat)
+iptables -A INPUT -p tcp --dport 4444 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 4444 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
 # Permitir tráfico interno entre el servidor y Docker
 iptables -A INPUT -i docker0 -j ACCEPT
 iptables -A OUTPUT -o docker0 -j ACCEPT
